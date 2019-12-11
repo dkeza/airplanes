@@ -1,0 +1,6 @@
+[psql]
+dbname = "airplanes"
+user="postgres"
+pass="postgres"
+host="localhost"
+sslmode="disable"
