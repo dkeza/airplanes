@@ -1033,7 +1033,7 @@ func testPilotsSelect(t *testing.T) {
 }
 
 var (
-	pilotDBTypes = map[string]string{`ID`: `integer`, `Name`: `text`}
+	pilotDBTypes = map[string]string{`ID`: `integer`, `Name`: `text`, `Firstname`: `text`}
 	_            = bytes.MinRead
 )
 

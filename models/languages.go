@@ -433,7 +433,7 @@ func (languageL) LoadPilots(ctx context.Context, e boil.ContextExecutor, singula
 		one := new(Pilot)
 		var localJoinCol int
 
-		err = results.Scan(&one.ID, &one.Name, &localJoinCol)
+		err = results.Scan(&one.ID, &one.Name, &one.Firstname, &localJoinCol)
 		if err != nil {
 			return errors.Wrap(err, "failed to scan eager loaded results for pilots")
 		}

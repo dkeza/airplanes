@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/friendsofgo/errors"
+	"github.com/volatiletech/null"
 	"github.com/volatiletech/sqlboiler/boil"
 	"github.com/volatiletech/sqlboiler/queries"
 	"github.com/volatiletech/sqlboiler/queries/qm"
@@ -23,29 +24,57 @@ import (
 
 // Pilot is an object representing the database table.
 type Pilot struct {
-	ID   int    `boil:"id" json:"id" toml:"id" yaml:"id"`
-	Name string `boil:"name" json:"name" toml:"name" yaml:"name"`
+	ID        int         `boil:"id" json:"id" toml:"id" yaml:"id"`
+	Name      string      `boil:"name" json:"name" toml:"name" yaml:"name"`
+	Firstname null.String `boil:"firstname" json:"firstname,omitempty" toml:"firstname" yaml:"firstname,omitempty"`
 
 	R *pilotR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L pilotL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var PilotColumns = struct {
-	ID   string
-	Name string
+	ID        string
+	Name      string
+	Firstname string
 }{
-	ID:   "id",
-	Name: "name",
+	ID:        "id",
+	Name:      "name",
+	Firstname: "firstname",
 }
 
 // Generated where
 
+type whereHelpernull_String struct{ field string }
+
+func (w whereHelpernull_String) EQ(x null.String) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, false, x)
+}
+func (w whereHelpernull_String) NEQ(x null.String) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, true, x)
+}
+func (w whereHelpernull_String) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
+func (w whereHelpernull_String) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
+func (w whereHelpernull_String) LT(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LT, x)
+}
+func (w whereHelpernull_String) LTE(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LTE, x)
+}
+func (w whereHelpernull_String) GT(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GT, x)
+}
+func (w whereHelpernull_String) GTE(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GTE, x)
+}
+
 var PilotWhere = struct {
-	ID   whereHelperint
-	Name whereHelperstring
+	ID        whereHelperint
+	Name      whereHelperstring
+	Firstname whereHelpernull_String
 }{
-	ID:   whereHelperint{field: "\"pilots\".\"id\""},
-	Name: whereHelperstring{field: "\"pilots\".\"name\""},
+	ID:        whereHelperint{field: "\"pilots\".\"id\""},
+	Name:      whereHelperstring{field: "\"pilots\".\"name\""},
+	Firstname: whereHelpernull_String{field: "\"pilots\".\"firstname\""},
 }
 
 // PilotRels is where relationship names are stored.
@@ -72,9 +101,9 @@ func (*pilotR) NewStruct() *pilotR {
 type pilotL struct{}
 
 var (
-	pilotAllColumns            = []string{"id", "name"}
+	pilotAllColumns            = []string{"id", "name", "firstname"}
 	pilotColumnsWithoutDefault = []string{"name"}
-	pilotColumnsWithDefault    = []string{"id"}
+	pilotColumnsWithDefault    = []string{"id", "firstname"}
 	pilotPrimaryKeyColumns     = []string{"id"}
 )
 

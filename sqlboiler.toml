@@ -4,3 +4,4 @@ user="postgres"
 pass="postgres"
 host="localhost"
 sslmode="disable"
+blacklist = ["goose_db_version"]

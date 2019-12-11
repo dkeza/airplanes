@@ -67,7 +67,7 @@ func main() {
 
 	languages, err := op.Languages().All(context.Background(), db)
 	dieIf(err)
-	fmt.Printf("Pilot %v knows following lanugages:\n", op.Name)
+	fmt.Printf("Pilot %v %v knows following lanugages:\n", op.Firstname, op.Name)
 	for _, oneLang := range languages {
 		fmt.Println(oneLang.Language)
 	}
