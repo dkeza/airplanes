@@ -64,11 +64,18 @@ func main() {
 	// Get first pilot in table, and show languages and jets for this pilot
 	op, err := models.Pilots(qm.Where("id = ?", 1)).One(context.Background(), db)
 	dieIf(err)
+
 	languages, err := op.Languages().All(context.Background(), db)
 	dieIf(err)
 	fmt.Printf("Pilot %v knows following lanugages:\n", op.Name)
 	for _, oneLang := range languages {
-		fmt.Printf("%v\n", oneLang.Language)
+		fmt.Println(oneLang.Language)
+	}
+
+	jets, err := op.Jets().All(context.Background(), db)
+	fmt.Printf("Jets for pilot: %v\n", op.Name)
+	for _, oneJet := range jets {
+		fmt.Println(oneJet.Name)
 	}
 
 }
