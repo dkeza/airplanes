@@ -29,3 +29,7 @@ sqlboiler psql --wipe
 ```
 
 And run main.go
+
+```
+go run main.go
+```
